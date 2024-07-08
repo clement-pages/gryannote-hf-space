@@ -1,8 +1,8 @@
 ---
-title: Gryannote Audio
-emoji: 🐢
-colorFrom: indigo
-colorTo: blue
+title: gryannote
+emoji: 🐰
+colorFrom: yellow
+colorTo: green
 sdk: gradio
 sdk_version: 4.32.1
 app_file: app.py
