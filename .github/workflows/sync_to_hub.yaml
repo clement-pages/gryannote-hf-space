@@ -17,5 +17,5 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://hbredin:$HF_TOKEN@huggingface.co/spaces/pyannote/pretrained-pipelines main --force
+        run: git push https://clement-pages:$HF_TOKEN@huggingface.co/spaces/clement-pages/gryannote main --force
   
