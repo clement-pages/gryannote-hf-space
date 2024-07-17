@@ -1,5 +1,6 @@
 import gradio as gr
 from gryannote_audio import AudioLabeling
+from gryannote_rttm import RTTM
 from pyannote.audio import Pipeline
 import os
 
@@ -8,7 +9,11 @@ def apply_pipeline(audio):
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=os.environ["HF_TOKEN"])
     annotations = pipeline(audio)
 
-    return (audio, annotations)
+    return ((audio, annotations), (audio, annotations))
+
+
+def update_annotations(data):
+    return rttm.on_edit(data)
 
 
 with gr.Blocks() as demo:
@@ -28,7 +33,7 @@ with gr.Blocks() as demo:
                 "To use the component, start by loading or recording audio."
                 "Then apply the diarization pipeline (here [pyannote/speaker-diarization-3.1](https://huggingface.co/pyannote/speaker-diarization-3.1))" 
                 "or double-click directly on the waveform. The annotations produced can be edited."
-                "You can also use keyboard shortcuts to speed things up!"
+                "You can also use keyboard shortcuts to speed things up! Finally, produced annotations can be saved by cliking on the downloading button in the RTTM component."
             )
             gr.Markdown()
             gr.Markdown()
@@ -38,9 +43,13 @@ with gr.Blocks() as demo:
                 type="filepath",
                 interactive=True,
             )
+
             gr.Markdown()
             gr.Markdown()
+
             run_btn = gr.Button("Run pipeline")
+
+            rttm = RTTM()
 
             gr.Markdown(
                 """| Shortcut                                      | Action                                                                |
@@ -66,7 +75,15 @@ with gr.Blocks() as demo:
     run_btn.click(
         fn=apply_pipeline,
         inputs=audio_labeling,
-        outputs=audio_labeling,
+        outputs=[audio_labeling, rttm],
+    )
+
+    audio_labeling.edit(
+        fn=update_annotations,
+        inputs=audio_labeling,
+        outputs=rttm,
+        preprocess=False,
+        postprocess=False,
     )
 
 
