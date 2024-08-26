@@ -17,60 +17,43 @@ def update_annotations(data):
 
 
 with gr.Blocks() as demo:
-    with gr.Row(equal_height=True):
-        with gr.Row():
-            with gr.Column(scale=1):
-                gr.Markdown(
-                    '<a href="https://github.com/clement-pages/gryannote"><img src="https://repository-images.githubusercontent.com/744648524/e841cef0-fbd9-45b0-9bce-536a1822c7b1" alt="gryannote logo" width="220"/></a>',
-                )
-        with gr.Column(scale=6):
-                gr.Markdown('<h1 style="font-size: 3em;">gryannote</h1>')  
-                gr.Markdown("<h2>Make the audio labeling process easier and faster! </h2>")
-
     with gr.Row():
         with gr.Column():
-            gr.Markdown(
-                "To use the component, start by loading or recording audio."
-                "Then apply the diarization pipeline (here [pyannote/speaker-diarization-3.1](https://huggingface.co/pyannote/speaker-diarization-3.1))" 
-                "or double-click directly on the waveform. The annotations produced can be edited."
-                "You can also use keyboard shortcuts to speed things up! Finally, produced annotations can be saved by cliking on the downloading button in the RTTM component."
-            )
-            gr.Markdown()
-            gr.Markdown()
-            gr.Markdown('<img src="https://github.com/clement-pages/gryannote/blob/main/docs/assets/poster-interspeech.jpg?raw=true" alt="gryannote poster"/>')
-        with gr.Column():
-            audio_labeling = AudioLabeling(
-                type="filepath",
-                interactive=True,
-            )
 
-            gr.Markdown()
-            gr.Markdown()
+            with gr.Row():
+                with gr.Column(scale=1):
+                    gr.Markdown(
+                        '<a href="https://github.com/clement-pages/gryannote"><img src="https://github.com/clement-pages/gryannote/blob/main/docs/assets/logo-gryannote.png?raw=true" alt="gryannote logo" width="140"/></a>',
+                        )
+                with gr.Column(scale=10):
+                        gr.Markdown('<h1 style="font-size: 4em;">gryannote</h1>')
+                        gr.Markdown() 
+                        gr.Markdown('<h2 style="font-size: 2em;">Make the audio labeling process easier and faster! </h2>')
 
-            run_btn = gr.Button("Run pipeline")
+            with gr.Tab("application"):
+                gr.Markdown(
+                    "To use the component, start by loading or recording audio."
+                    "Then apply the diarization pipeline (here [pyannote/speaker-diarization-3.1](https://huggingface.co/pyannote/speaker-diarization-3.1))" 
+                    "or double-click directly on the waveform to add an annotations. The annotations produced can be edited."
+                    " You can also use keyboard shortcuts to speed things up! Click on the help button to see all the available shortcuts."
+                    " Finally, annotations can be saved by cliking on the downloading button in the RTTM component."
+                )
+                gr.Markdown()
+                gr.Markdown()
+                audio_labeling = AudioLabeling(
+                    type="filepath",
+                    interactive=True,
+                )
 
-            rttm = RTTM()
+                gr.Markdown()
+                gr.Markdown()
 
-            gr.Markdown(
-                """| Shortcut                                      | Action                                                                |
-                    | --------------------------------------------- | --------------------------------------------------------------------- |
-                    | `SPACE`                                       | Toggle play / pause                                                   |
-                    | `ENTER`                                       | Create annotation at current time                                     |
-                    | `SHIFT + ENTER`                               | Split annotation at current time                                      |
-                    | `A`, `B`, `C`, ..., `Z`                       | Set active label. If there is a selected annotation, update its label |
-                    | `LEFT` or `RIGHT`                             | Edit start time of selected annotation (if any) or move time cursor   |
-                    | `SHIFT + LEFT` or `SHIFT + RIGHT`             | Same, but faster                                                      |
-                    |`ALT + LEFT` or `ALT + RIGHT`                  | Edit end time of selected annotation                                  |
-                    | `SHIFT + ALT + LEFT` or `SHIFT + ALT + RIGHT` | Same, but faster                                                      |
-                    | `TAB`                                         | Select next annotation                                                |
-                    | `SHIFT + TAB`                                 | Select previous annotation                                            |
-                    |`BACKSPACE`                                    | Delete selected annotation and select the previous one                |
-                    |`DELETE` or `SHIFT + BACKSPACE`                | Delete selected region and select the next one                        |
-                    |`ESC`                                          | Unselect selected annotation and / or label                           |
-                    | `UP` or `DOWN`                                | Zoom in/out                                                           |
-                    | `F2`                                          | Open settings for the active label                                    |
-                    """
-            )
+                run_btn = gr.Button("Run pipeline")
+
+                rttm = RTTM()
+
+            with gr.Tab("poster"):
+                gr.Markdown('<img src="https://github.com/clement-pages/gryannote/blob/main/docs/assets/poster-interspeech.jpg?raw=true" alt="gryannote poster"/>')
 
     run_btn.click(
         fn=apply_pipeline,
