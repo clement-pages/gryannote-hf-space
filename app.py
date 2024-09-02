@@ -53,7 +53,9 @@ with gr.Blocks() as demo:
                 rttm = RTTM()
 
             with gr.Tab("poster"):
-                gr.Markdown('<img src="https://github.com/clement-pages/gryannote/blob/main/docs/assets/poster-interspeech.jpg?raw=true" alt="gryannote poster"/>')
+                gr.Markdown(
+                    '<p align="center"><img src="https://github.com/clement-pages/gryannote/blob/main/docs/assets/poster-interspeech.jpg?raw=true" alt="gryannote poster" width=700em/></p>'
+                )
 
     run_btn.click(
         fn=apply_pipeline,
