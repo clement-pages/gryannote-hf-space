@@ -1,3 +1,4 @@
-pyannote-audio
 gradio==4.27.0
 gryannote
+pyannote-audio==3.3.2
+spaced==0.30.2

@@ -1,9 +1,11 @@
+import spaces
 import gradio as gr
 from gryannote_audio import AudioLabeling
 from gryannote_rttm import RTTM
 from pyannote.audio import Pipeline
 import os
 
+@spaces.GPU(duration=300)
 def apply_pipeline(audio):
     """Apply specified pipeline on the indicated audio file"""
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=os.environ["HF_TOKEN"])
