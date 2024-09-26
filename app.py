@@ -6,7 +6,7 @@ from pyannote.audio import Pipeline
 import os
 import torch
 
-@spaces.GPU(duration=300)
+@spaces.GPU(duration=120)
 def apply_pipeline(audio):
     """Apply specified pipeline on the indicated audio file"""
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=os.environ["HF_TOKEN"])
@@ -19,7 +19,7 @@ def apply_pipeline(audio):
 def update_annotations(data):
     return rttm.on_edit(data)
 
-    
+
 with gr.Blocks() as demo:
     with gr.Row():
         with gr.Column():
