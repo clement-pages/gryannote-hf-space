@@ -4,12 +4,13 @@ from gryannote_audio import AudioLabeling
 from gryannote_rttm import RTTM
 from pyannote.audio import Pipeline
 import os
+import torch
 
 @spaces.GPU(duration=300)
 def apply_pipeline(audio):
     """Apply specified pipeline on the indicated audio file"""
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=os.environ["HF_TOKEN"])
-    pipeline.to("cuda")
+    pipeline.to(torch.device("cuda"))
     annotations = pipeline(audio)
 
     return ((audio, annotations), (audio, annotations))
@@ -18,7 +19,7 @@ def apply_pipeline(audio):
 def update_annotations(data):
     return rttm.on_edit(data)
 
-
+    
 with gr.Blocks() as demo:
     with gr.Row():
         with gr.Column():
