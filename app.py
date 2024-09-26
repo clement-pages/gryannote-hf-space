@@ -7,6 +7,7 @@ import os
 def apply_pipeline(audio):
     """Apply specified pipeline on the indicated audio file"""
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", use_auth_token=os.environ["HF_TOKEN"])
+    pipeline.to("cuda")
     annotations = pipeline(audio)
 
     return ((audio, annotations), (audio, annotations))
