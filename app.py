@@ -13,7 +13,7 @@ def apply_pipeline(audio):
     pipeline.to(torch.device("cuda"))
     annotations = pipeline(audio)
 
-    return ((audio, annotations), (audio, annotations))
+    return ((audio, annotations), annotations)
 
 
 def update_annotations(data):
@@ -73,6 +73,12 @@ with gr.Blocks() as demo:
         outputs=rttm,
         preprocess=False,
         postprocess=False,
+    )
+
+    rttm.upload(
+        fn=audio_labeling.load_annotations,
+        inputs=[audio_labeling, rttm],
+        outputs=audio_labeling,
     )
 
 
