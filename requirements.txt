@@ -1,4 +1,3 @@
-gradio==4.27.0
 gryannote==0.3.3
 pyannote-audio==3.3.2
 spaces==0.30.2
